@@ -1,0 +1,9 @@
+# Configuracion del Token Server Server
+
+spring:
+   application:
+       name: DEMO
+
+
+server:
+   port: 8090

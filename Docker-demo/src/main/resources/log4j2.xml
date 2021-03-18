@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} [%15.15t] %-40.40c : %m%n%ex</Property>
+        <Property name="LOG_PATTERN_PROD">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} [%15.15t] %-40.40c{1.} : %m%n%ex</Property>
+        <Property name="APP_LOG_ROOT">logs</Property>
+    </Properties>
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="STDOUT" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+         
+        <!-- File Appenders on need basis -->
+        <RollingFile name="FILE" fileName="${APP_LOG_ROOT}/demo.log" filePattern="${APP_LOG_ROOT}/demo-%d{yyyy-MM-dd}-%i.log">
+            <!--<LevelRangeFilter minLevel="DEBUG" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>-->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="FILE" />
+        </Logger>
+        
+        <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="FILE" />
+        </Logger>
+        <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="FILE" />
+        </Logger>
+        <Logger name="com.zaxxer.hikari.HikariConfig" level="DEBUG" additivity="false">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="FILE" />
+        </Logger>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="FILE" />
+        </Root>
+    </Loggers>
+</Configuration>
